@@ -52,6 +52,7 @@ let football file team =
             ))))
     with
     | End_of_file ->
+        close_in inch;
         print_endline team;
         Printf.printf "    Played:        %3d\n" played;
         Printf.printf "    Won:           %3d\n" won;
@@ -60,5 +61,7 @@ let football file team =
         Printf.printf "    Goals Scored:  %3d\n" gs;
         Printf.printf "    Goals Allowed: %3d\n" ga;
         Printf.printf "    Points:        %3d\n" pts
+
+    | e -> close_in inch; raise e
   in
   read 0 0 0 0 0 0 0
