@@ -1,0 +1,8 @@
+$(EXEC): $(OBJS)
+	ocamlc -o $@ $^
+%.cmi: %.mli
+	ocamlc -c $<
+%.cmo: %.ml
+	ocamlc -c $<
+
+include .depend

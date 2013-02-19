@@ -1,0 +1,26 @@
+OCAMLC   ?= ocamlc
+COMPILER := $(OCAMLC) -c
+LINKER   := $(OCAMLC) -o
+
+$(EXEC): $(OBJS)
+	$(LINKER) $@ $^
+%.cmi: %.mli
+	$(COMPILER) $<
+%.cmo: %.ml
+	$(COMPILER) $<
+
+clean:
+	rm *.cm* $(EXEC)
+# ...snip...
+depend:
+	ocamldep *.ml *.mli > .depend
+
+ifeq (,$(wildcard .depend))
+ifneq ($(MAKECMDGOALS),depend)
+$(error Try 'make depend' first.)
+endif
+else
+include .depend
+endif
+
+.PHONY: clean depend

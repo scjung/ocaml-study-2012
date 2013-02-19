@@ -1,0 +1,12 @@
+OCAMLC   ?= ocamlc
+COMPILER := $(OCAMLC) -c
+LINKER   := $(OCAMLC) -o
+
+$(EXEC): $(OBJS)
+	$(LINKER) $@ $^
+%.cmi: %.mli
+	$(COMPILER) $<
+%.cmo: %.ml
+	$(COMPILER) $<
+
+include .depend

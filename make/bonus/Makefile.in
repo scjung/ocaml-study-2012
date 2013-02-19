@@ -1,0 +1,33 @@
+OCAMLC   ?= ocamlc
+COMPILER := $(OCAMLC) -c
+LINKER   := $(OCAMLC) -o
+
+ifdef DEPENDED
+start: $(EXEC)
+else
+start: depend
+	DEPENDED=1 $(MAKE)
+endif
+
+$(EXEC): $(OBJS)
+	$(LINKER) $@ $^
+
+%.cmi: %.mli
+	$(COMPILER) $<
+
+%.cmo: %.ml
+	$(COMPILER) $<
+
+.depend: $(wildcard *.ml *.mli)
+	ocamldep $^ > $@
+
+clean:
+	rm *.cm* $(EXEC)
+
+depend: .depend
+
+ifneq (,$(wildcard .depend))
+include .depend
+endif
+
+.PHONY: clean depend depend_rerun
